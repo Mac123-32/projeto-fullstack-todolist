@@ -86,3 +86,12 @@ select {
 select:hover {
     background-color: #DDD;
 }
+
+.btn-action:nth-child(1) {
+    background-color: orange;
+    margin-right: 5px;
+}
+
+.btn-action:nth-child(2) {
+    background-color: rgba(237, 42, 42, 0.9);
+}
