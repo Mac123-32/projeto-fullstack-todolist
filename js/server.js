@@ -1,4 +1,6 @@
 const global_value_db = [];
+const deixa_a_requisicao = true;
+
 const local_storage_escrever = (data) => {
     const data_local_storage = JSON.stringify(data);
     localStorage.setItem('db', data_local_storage);
@@ -107,5 +109,9 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
     return value;// retorno em string, precisa fazer JSON.parse(value)
 }
 
+const ola_mundo = () => {
+    console.log("ola mundo");
+}
 
-exports = { fetchTasksMock, global_value_db }
+
+export { fetchTasksMock, global_value_db,ola_mundo }

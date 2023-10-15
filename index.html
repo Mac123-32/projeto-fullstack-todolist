@@ -25,7 +25,8 @@
                 </tr>
             </thead>
             <tbody data-tbody-tasks="tabela" >
-                <script>
+<!--                 
+                <script  > 
                     let tableHtml = Array(10).fill(2).map(data => {
                         return '<tr> <td>'+'titulo da task'+'</td>'+
                                 ' <td>'+'00 de janeiro de 2023 15:00'+'</td> <td>'+
@@ -44,10 +45,10 @@
                     '</td>      </tr>'
                     }).join('');
                     document.write(tableHtml);
-                </script>
+                </script> -->
             </tbody>
         </table>
     </main>
-    <script src="./js/index.js"></script>
+    <script type="module" src="./js/index.js"></script>
 </body>
 </html>
