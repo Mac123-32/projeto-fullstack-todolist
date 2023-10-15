@@ -87,6 +87,12 @@ select:hover {
     background-color: #DDD;
 }
 
+.btn-action {
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+}
+
 .btn-action:nth-child(1) {
     background-color: orange;
     margin-right: 5px;
