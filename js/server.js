@@ -109,9 +109,14 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
     return value;// retorno em string, precisa fazer JSON.parse(value)
 }
 
-const ola_mundo = () => {
-    console.log("ola mundo");
+const tasks = () => {
+    return {
+        id: 1,
+        title: 'Inscreva-se no canal Manual do Dev',
+        created_at: '00 Janeiro de 2023 00:12',
+        status: 'pendente'
+    }
 }
 
 
-export { fetchTasksMock, global_value_db,ola_mundo }
+export { fetchTasksMock, global_value_db , tasks}
