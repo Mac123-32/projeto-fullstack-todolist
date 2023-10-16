@@ -1,4 +1,4 @@
-const global_value_db = [];
+let global_value_db = [];
 const deixa_a_requisicao = true;
 
 const local_storage_escrever = (data) => {
@@ -7,7 +7,7 @@ const local_storage_escrever = (data) => {
 }
 
 const local_storage_pega = () => {
-    const get_data_local_storage = localStorage.getItem('db') || []
+    const get_data_local_storage = localStorage.getItem('db') || [];
     return get_data_local_storage;
 }
 
@@ -15,13 +15,14 @@ const verb_get = async (resolve_or_reject) => {
     const result = await new Promise((resolve, reject) => {
         setTimeout(() => {
             if (resolve_or_reject) {
-                resolve(local_storage_pega())
+                const res = JSON.parse(local_storage_pega())
+                resolve(res)
             } else {
                 reject(JSON.stringify([{ message: 'Erro server!' }]))
             }
         }, 2000)
     })
-    return result
+    return result;
 }
 
 const verb_others = async (resolve_or_reject, data) => {
@@ -31,7 +32,6 @@ const verb_others = async (resolve_or_reject, data) => {
 }
 
 const fetchTasksMock = async (verb_http = 'get', data) => {
-
     switch (verb_http) {
         case 'get':
             const data_db = await verb_get(deixa_a_requisicao)
@@ -106,17 +106,8 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
         default:
             break;
     }
-    return value;// retorno em string, precisa fazer JSON.parse(value)
-}
-
-const tasks = () => {
-    return {
-        id: 1,
-        title: 'Inscreva-se no canal Manual do Dev',
-        created_at: '00 Janeiro de 2023 00:12',
-        status: 'pendente'
-    }
+    return global_value_db;// retorno em string, precisa fazer JSON.parse(value)
 }
 
 
-export { fetchTasksMock, global_value_db , tasks}
+export { fetchTasksMock, global_value_db}

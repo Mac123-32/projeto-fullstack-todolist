@@ -1,4 +1,4 @@
-import { tasks } from '../js/server.js'
+import { fetchTasksMock, global_value_db } from '../js/server.js'
 
 const tbody_element = document.querySelector('[data-tbody-tasks="tabela"]');
 
@@ -73,7 +73,28 @@ const createRow = (task) => {
     tr.appendChild(tdcreated_at);
     tr.appendChild(tdselect);
     tr.appendChild(tdspan);
-    tbody_element.appendChild(tr);
+    // tbody_element.appendChild(tr);
+    return tr
 }
 
-createRow(tasks());
+const loadTasks = async (value = '') => {
+    const fragment = document.createDocumentFragment();
+    if (global_value_db.length == 0 ) {
+        const tasks = await fetchTasksMock('get');
+        tasks.forEach(task => {
+            fragment.appendChild(createRow(task));
+        })
+        tbody_element.appendChild(fragment);
+    } else {
+        const tasks = await fetchTasksMock(value);
+        console.log(tasks);
+
+    }
+
+}
+
+loadTasks();
+
+tbody_element.addEventListener('click', (e) => {
+    console.log(e.target)
+})
