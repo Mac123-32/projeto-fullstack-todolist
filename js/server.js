@@ -26,8 +26,15 @@ const verb_get = async (resolve_or_reject) => {
 }
 
 const verb_others = async (resolve_or_reject, data) => {
-    const result = await new Promise((resolve, reject) => {
-
+    await new Promise((resolve, reject) => {
+        if(resolve_or_reject) {
+            local_storage_escrever(data);
+            setTimeout(() => {
+                resolve(true)
+            }, 2000);
+        }else {
+            reject({message: "Error server conection!!"});
+        }
     })
 }
 
@@ -35,7 +42,7 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
     switch (verb_http) {
         case 'get':
             const data_db = await verb_get(deixa_a_requisicao)
-            global_value_db = [...data_db];
+            global_value_db = data_db;
             break;
         case 'put':
             if (global_value_db.length == 0) {

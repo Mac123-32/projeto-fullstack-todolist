@@ -1,6 +1,26 @@
 import { fetchTasksMock, global_value_db } from '../js/server.js'
 
 const tbody_element = document.querySelector('[data-tbody-tasks="tabela"]');
+const input_element = document.querySelector('[data-js="form-submit-input"]');
+
+const contructor_task_to_send = async (value) => {
+    const id = Date.now();
+    const aux_task = {
+        id,
+        title: value,
+        created_at: new Date().toUTCString(),
+        status: 'em andamento'
+    }
+    return aux_task;
+}
+
+const addTask = async (e) => {
+    e.preventDefault();
+    const value_input_client = e.target.childNodes[1].value;
+    const new_task = await contructor_task_to_send(value_input_client)
+    await fetchTasksMock('post', new_task);
+    loadTasks('get');
+}
 
 const create_element_td_text = ( text_inside_element = '') => {
     const element = document.createElement('td');
@@ -77,7 +97,8 @@ const createRow = (task) => {
     return tr
 }
 
-const loadTasks = async (value = '') => {
+const loadTasks = async (value) => {
+    // para evitar fazer varios reloads desnecessarios na tela
     const fragment = document.createDocumentFragment();
     if (global_value_db.length == 0 ) {
         const tasks = await fetchTasksMock('get');
@@ -87,8 +108,10 @@ const loadTasks = async (value = '') => {
         tbody_element.appendChild(fragment);
     } else {
         const tasks = await fetchTasksMock(value);
-        console.log(tasks);
-
+        tasks.forEach( task => {
+            tbody_element.appendChild(createRow(task))
+        })
+        
     }
 
 }
@@ -98,3 +121,5 @@ loadTasks();
 tbody_element.addEventListener('click', (e) => {
     console.log(e.target)
 })
+
+input_element.addEventListener('submit', addTask)
