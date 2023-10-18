@@ -27,43 +27,34 @@ const verb_get = async (resolve_or_reject) => {
 
 const verb_others = async (resolve_or_reject, data) => {
     await new Promise((resolve, reject) => {
-        if(resolve_or_reject) {
+        if (resolve_or_reject) {
             local_storage_escrever(data);
             setTimeout(() => {
                 resolve(true)
             }, 2000);
-        }else {
-            reject({message: "Error server conection!!"});
+        } else {
+            reject({ message: "Error server conection!!" });
         }
     })
 }
 
 const fetchTasksMock = async (verb_http = 'get', data) => {
+    const [id, value_change] = data != null ? Object.keys(data) : [] ;
+    
     switch (verb_http) {
         case 'get':
             const data_db = await verb_get(deixa_a_requisicao)
             global_value_db = data_db;
             break;
         case 'put':
-            if (global_value_db.length == 0) {
-                const data_db = await verb_get(true);
-                global_value_db = [...data_db]
-                for (let i = 0; i < global_value_db.length; i++) {
-                    if (global_value_db[i].id == data.id) {
-                        global_value_db[i].title = data.title
-                        break;
-                    }
+            console.log(id, value_change, data, data[value_change]);
+            for (let i = 0; i < global_value_db.length; i++) {
+                if (global_value_db[i].id == data[id]) {
+                    global_value_db[i][value_change] = data[value_change];
+                    break;
                 }
-                await verb_others(deixa_a_requisicao, global_value_db)
-            } else {
-                for (let i = 0; i < global_value_db.length; i++) {
-                    if (global_value_db[i].id == data.id) {
-                        global_value_db[i].title = data.title;
-                        break;
-                    }
-                }
-                await verb_others(deixa_a_requisicao, global_value_db);
             }
+            await verb_others(deixa_a_requisicao, global_value_db);
             break;
         case 'post':
             if (global_value_db.length == 0) {
@@ -77,37 +68,22 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
             }
             break;
         case 'delete':
-            if (global_value_db.length == 0) {
-                const data_db = await verb_get(true);
-                const aux = data_db.filter(datas => datas.id !== data.id)
-                global_value_db = [...aux]
-                await verb_others(deixa_a_requisicao, aux)
-            } else {
-                const aux = global_value_db.filter(datas => datas.id !== data.id)
-                global_value_db = [...aux];
-                await verb_others(deixa_a_requisicao, aux);
-            }
+            console.log(data[id]);
+            const aux = global_value_db.filter(datas => datas.id != data[id])
+            global_value_db = aux;
+            console.log(global_value_db)
+            console.log(aux);
+            await verb_others(deixa_a_requisicao, aux);
             break;
         case 'patch':
-            if (global_value_db.length == 0) {
-                const data_db = await verb_get(true);
-                global_value_db = [...data_db]
-                for (let i = 0; i < global_value_db.length; i++) {
-                    if (global_value_db[i].id == data.id) {
-                        global_value_db[i].title = data.title
-                        break;
-                    }
+            console.log(id, value_change, data, data[value_change]);
+            for (let i = 0; i < global_value_db.length; i++) {
+                if (global_value_db[i].id == data[id]) {
+                    global_value_db[i][value_change] = data[value_change];
+                    break;
                 }
-                await verb_others(deixa_a_requisicao, global_value_db)
-            } else {
-                for (let i = 0; i < global_value_db.length; i++) {
-                    if (global_value_db[i].id == data.id) {
-                        global_value_db[i].title = data.title;
-                        break;
-                    }
-                }
-                await verb_others(deixa_a_requisicao, global_value_db);
             }
+            await verb_others(deixa_a_requisicao, global_value_db);
             break;
 
         default:
@@ -117,4 +93,4 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
 }
 
 
-export { fetchTasksMock, global_value_db}
+export { fetchTasksMock, global_value_db }

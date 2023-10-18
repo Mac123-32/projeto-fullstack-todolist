@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="./css/style.css">
-
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
 </head>
-<body>    
+
+<body>
     <main>
-        <form class="add-form" data-js="form-submit-input" >
-            <input type="text" placeholder="Adicionar tarefa" class="input-task" >
-            <button type="submit" >+</button>
+        <form class="add-form" data-js="form-submit-input">
+            <input type="text" placeholder="Adicionar tarefa" class="input-task">
+            <button type="submit">+</button>
         </form>
 
         <table>
@@ -24,31 +26,13 @@
                     <th>Ações</th>
                 </tr>
             </thead>
-            <tbody data-tbody-tasks="tabela" >
-<!--                 
-                <script  > 
-                    let tableHtml = Array(10).fill(2).map(data => {
-                        return '<tr> <td>'+'titulo da task'+'</td>'+
-                                ' <td>'+'00 de janeiro de 2023 15:00'+'</td> <td>'+
-                        '<select>'+
-                            '<option value="pendente">Pendente</option>'+
-                            '<option value="em andamento">Em andamento</option>'+
-                            '<option value="concluida">Concluída</option>'+
-                        '</select>'+
-                    '</td> <td>'+
-                        '<button class="btn-action" >'+
-                            '<span class="material-symbols-outlined">edit</span>'+
-                        '</button>'+
-                        '<button class="btn-action" >'+
-                            '<span class="material-symbols-outlined">delete</span>'+
-                        '</button>'+
-                    '</td>      </tr>'
-                    }).join('');
-                    document.write(tableHtml);
-                </script> -->
+            <tbody data-tbody-tasks="tabela">
+                <tr data-js-adicionar="elementos-click">
+                </tr>
             </tbody>
         </table>
     </main>
-    <script type="module" src="./js/index.js"></script>
+    <script defer type="module" src="./js/index.js"></script>
 </body>
+
 </html>
