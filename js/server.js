@@ -47,7 +47,6 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
             global_value_db = data_db;
             break;
         case 'put':
-            console.log(id, value_change, data, data[value_change]);
             for (let i = 0; i < global_value_db.length; i++) {
                 if (global_value_db[i].id == data[id]) {
                     global_value_db[i][value_change] = data[value_change];
@@ -68,15 +67,11 @@ const fetchTasksMock = async (verb_http = 'get', data) => {
             }
             break;
         case 'delete':
-            console.log(data[id]);
             const aux = global_value_db.filter(datas => datas.id != data[id])
             global_value_db = aux;
-            console.log(global_value_db)
-            console.log(aux);
             await verb_others(deixa_a_requisicao, aux);
             break;
         case 'patch':
-            console.log(id, value_change, data, data[value_change]);
             for (let i = 0; i < global_value_db.length; i++) {
                 if (global_value_db[i].id == data[id]) {
                     global_value_db[i][value_change] = data[value_change];

@@ -11,7 +11,46 @@ const function_submit = async (value) => {
     await fetchTasksMock('patch',obj_to_send);
 };
 
-const function_edit = (value) => console.log("function edit ", value.target);
+const function_edit = (value) => {
+    value.preventDefault();
+    const btn_edit = value.target;
+    
+    const id_tr_clicked = btn_edit.parentNode.parentNode.parentNode.attributes[0].nodeValue;
+    const td_tarefa = btn_edit.parentNode.parentNode.parentNode.childNodes[0];
+    const text_td = td_tarefa.innerText;
+
+    
+    const get_input_value = async (event) => {
+        event.preventDefault();
+        const value_input = event.target.childNodes[0].value;
+        await send_to_db({id: id_tr_clicked, title: value_input})
+    }
+
+    const send_to_db = async (value) => {
+        form_input.removeEventListener('submit', get_input_value);
+        await fetchTasksMock('patch', {id:value.id, title: value.title})
+        await loadTasks();
+    }
+    
+    const input = {
+        type: 'text',
+        id: id_tr_clicked,
+        name: 'input-edit',
+        value: text_td,
+        'data-js-edit-input': 'input1'
+    }
+
+    const form_input = document.createElement('form');
+    const element_input = document.createElement('input');
+
+    Object.entries(input).forEach(([key, value]) => element_input.setAttribute(key,value))
+
+    td_tarefa.innerHTML = '';
+
+    form_input.addEventListener('submit',get_input_value)
+    form_input.appendChild(element_input);
+    td_tarefa.appendChild(form_input);
+};
 
 const function_delete = async (value) => {
     const element_clicked = value.target;
@@ -29,6 +68,12 @@ const function_delete = async (value) => {
     await loadTasks('get');
 };
 
+const formatDate = (dateUTC) => {
+    const options = { dateStyle: 'long', timeStyle: 'short' };
+    const date = new Date(dateUTC).toLocaleString('pt-br', options);
+    return date;
+  }
+
 const contructor_task_to_send = async (value) => {
     const id = Date.now();
     const aux_task = {
@@ -43,6 +88,10 @@ const contructor_task_to_send = async (value) => {
 const addTask = async (e) => {
     e.preventDefault();
     const value_input_client = e.target.childNodes[1].value;
+    if( value_input_client == '') {
+        alert("Precisa adicionar algo!!");
+        return;
+    }
     e.target.childNodes[1].value = '';
 
     const new_task = await contructor_task_to_send(value_input_client)
@@ -120,7 +169,8 @@ const createRow = (task) => {
 
     const tr = document.createElement('tr');
     const tdtitle = create_element_td_text(title);
-    const tdcreated_at = create_element_td_text(created_at);
+    const time = formatDate(created_at)
+    const tdcreated_at = create_element_td_text(time);
     const tdselect = create_element_td_html('select', status, id);
     const tdspan = create_element_td_html('span', null, id);
 
